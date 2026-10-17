@@ -61,29 +61,13 @@ export const wedding = {
     ]
   },
 
-  // Phase 4 & 5.5: People & Couple Photos (Pointing strictly to new optimized photos)
-  people: {
-    bride: {
-      name: "Rukshana Parveen",
-      role: "THE BRIDE",
-      photo: "/images/optimized/rc2.jpg",
-      photoWebp: "/images/optimized/rc2.webp",
-      objectPosition: "center 28%",
-      oneLine: ""
-    },
-    groom: {
-      name: "Ashick",
-      role: "THE GROOM",
-      photo: "/images/optimized/ac-1.jpg",
-      photoWebp: "/images/optimized/ac-1.webp",
-      objectPosition: "center 25%",
-      oneLine: ""
-    }
+  // Illustration: Watercolor of clasped hands (Sherwani sleeve & dupatta)
+  illustration: {
+    png: "/images/optimized/hands.png",
+    webp: "/images/optimized/hands.webp",
+    alt: "Watercolor illustration of clasped hands with cream-and-gold sherwani sleeve and plum dupatta"
   },
   couple: {
-    photo: "/images/optimized/ar-c1.jpg",
-    photoWebp: "/images/optimized/ar-c1.webp",
-    objectPosition: "center 38%",
     caption: "Different paths, the same kind of forever."
   },
 

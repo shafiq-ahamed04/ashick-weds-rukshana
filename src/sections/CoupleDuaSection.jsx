@@ -12,9 +12,10 @@ export default function CoupleDuaSection() {
   const [floatingItems, setFloatingItems] = useState([]);
   const sectionRef = useRef(null);
   const cardRef = useRef(null);
+  const illustrationRef = useRef(null);
+  const floatContainerRef = useRef(null);
 
-  const couple = wedding.couple;
-  const tapMessages = wedding.dua.tapMessages || [
+  const tapMessages = wedding.dua?.tapMessages || [
     'Barakallahu lakuma',
     'Ameen',
     'Mabrook!',
@@ -22,20 +23,21 @@ export default function CoupleDuaSection() {
     'May your home be full of mercy',
   ];
 
-  // GSAP Entrance
+  // GSAP Entrance & Motion Effects
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const ctx = gsap.context(() => {
       if (!prefersReducedMotion) {
+        // Entrance fade-up for section elements
         gsap.fromTo(
           '.couple-stagger-item',
-          { opacity: 0, y: 35 },
+          { opacity: 0, y: 30 },
           {
             opacity: 1,
             y: 0,
             duration: 1.1,
-            stagger: 0.14,
+            stagger: 0.12,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: cardRef.current,
@@ -44,8 +46,37 @@ export default function CoupleDuaSection() {
             },
           }
         );
+
+        // Illustration entrance: fade up once with scale 0.96 to 1 and blur 6px to 0
+        if (illustrationRef.current) {
+          gsap.fromTo(
+            illustrationRef.current,
+            { opacity: 0, scale: 0.96, filter: 'blur(6px)' },
+            {
+              opacity: 1,
+              scale: 1,
+              filter: 'blur(0px)',
+              duration: 1.4,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: cardRef.current,
+                start: 'top 80%',
+                once: true,
+              },
+              onComplete: () => {
+                // Add gentle float (translateY 0 to -6px over 5s)
+                if (floatContainerRef.current) {
+                  floatContainerRef.current.classList.add('animate-illustration-float');
+                }
+              },
+            }
+          );
+        }
       } else {
         gsap.set('.couple-stagger-item', { opacity: 1, y: 0 });
+        if (illustrationRef.current) {
+          gsap.set(illustrationRef.current, { opacity: 1, scale: 1, filter: 'blur(0px)' });
+        }
       }
     }, sectionRef);
 
@@ -111,13 +142,14 @@ export default function CoupleDuaSection() {
 
   return (
     <section
+      id="two-souls"
       ref={sectionRef}
       onClick={handleSectionTap}
       className="relative w-full py-20 sm:py-28 px-4 sm:px-6 md:px-12 overflow-hidden flex flex-col items-center justify-center text-center cursor-pointer select-none selection:bg-[#F4C6D7] selection:text-[#3E1A36]"
       style={{
         background: 'linear-gradient(180deg, #E4D7F2 0%, #F5CAD8 40%, #FBE6EE 75%, #FFF8F3 100%)',
       }}
-      aria-label="The Couple & Send a Dua Interaction"
+      aria-label="Two Souls, One Journey & Send a Dua Interaction"
     >
       {/* FLOATING TAP PARTICLES & DUA MESSAGES OVERLAY */}
       <div className="pointer-events-none absolute inset-0 z-40 overflow-hidden" aria-hidden="true">
@@ -130,7 +162,7 @@ export default function CoupleDuaSection() {
                 top: `${item.y}px`,
               }}
             >
-              <span className="font-body italic text-lg sm:text-xl text-[#5B2A4E] font-bold drop-shadow-[0_2px_8px_rgba(255,255,255,0.95)] px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-[#E3C98A]/70 shadow-sm">
+              <span className="font-body italic text-lg sm:text-xl text-[#5B2A4E] font-bold drop-shadow-[0_2px_8px_rgba(255,255,255,0.95)] px-4 py-1.5 rounded-full bg-white/85 border border-[#E3C98A]/70 shadow-sm">
                 ✨ {item.message} ✨
               </span>
             </div>
@@ -164,25 +196,27 @@ export default function CoupleDuaSection() {
         ))}
       </div>
 
-      {/* HEADER */}
+      {/* SECTION HEADER: Label in label font, Names in script font like Invitation */}
       <div className="couple-stagger-item relative z-20 max-w-xl mx-auto mb-6 sm:mb-8 flex flex-col items-center">
         <span className="font-label text-xs sm:text-[13px] tracking-[0.2em] text-[#8A6414] uppercase font-bold mb-2 block">
-          Two Souls, One Journey
+          TWO SOULS, ONE JOURNEY
         </span>
 
-        {/* AR Monogram Logo */}
-        <div className="w-[180px] xs:w-[210px] sm:w-[240px] my-1 mx-auto">
-          <picture>
-            <source srcSet={wedding.logo.webp} type="image/webp" />
-            <img
-              src={wedding.logo.png}
-              alt={wedding.logo.alt}
-              width="240"
-              height="160"
-              className="w-full h-auto object-contain"
-              style={{ filter: 'drop-shadow(0 6px 18px rgba(91,42,78,0.22))' }}
-            />
-          </picture>
+        {/* Couple Names - Elegantly Shaped and Styled like Invitation Section */}
+        <div className="my-3 flex flex-col items-center justify-center text-center">
+          <span className="font-script text-[clamp(42px,9vw,76px)] text-[#3E1A36] leading-[1.15] name-script-shadow block">
+            {wedding.groom}
+          </span>
+          <div className="flex items-center justify-center gap-3 my-1">
+            <span className="h-[1px] w-10 sm:w-16 bg-gradient-to-r from-transparent via-[#C9A24B] to-[#C9A24B]/70" />
+            <span className="font-script text-2xl sm:text-3xl text-[#8A6414] font-bold name-script-shadow select-none">
+              &amp;
+            </span>
+            <span className="h-[1px] w-10 sm:w-16 bg-gradient-to-l from-transparent via-[#C9A24B] to-[#C9A24B]/70" />
+          </div>
+          <span className="font-script text-[clamp(42px,9vw,76px)] text-[#3E1A36] leading-[1.15] name-script-shadow block">
+            {wedding.bride}
+          </span>
         </div>
 
         <div className="my-2">
@@ -190,33 +224,109 @@ export default function CoupleDuaSection() {
         </div>
       </div>
 
-      {/* LARGE ARCH-FRAMED COUPLE PHOTO CONTAINER (Safari-compatible rounded arch) */}
+      {/* LARGE ISLAMIC POINTED-ARCH WINDOW CONTAINER */}
       <div
         ref={cardRef}
-        className="couple-stagger-item relative z-20 w-full max-w-[340px] xs:max-w-[390px] sm:max-w-[460px] md:max-w-[520px] mx-auto flex flex-col items-center"
+        className="couple-stagger-item relative z-20 w-[82vw] max-w-[460px] mx-auto flex flex-col items-center"
       >
-        <div className="relative w-full aspect-[3/4.1] rounded-t-[160px] rounded-b-3xl p-2 bg-gradient-to-b from-[#E3C98A] via-[#C9A24B] to-[#9C7728] shadow-[0_20px_50px_rgba(62,26,54,0.22)]">
-          <div className="relative w-full h-full p-1.5 bg-[#FFF8F3] rounded-t-[152px] rounded-b-[22px] overflow-hidden">
-            <div className="w-full h-full rounded-t-[146px] rounded-b-[18px] overflow-hidden relative">
-              <picture>
-                <source srcSet={couple.photoWebp} type="image/webp" />
-                <img
-                  src={couple.photo}
-                  alt={`${wedding.bride} & ${wedding.groom}`}
-                  className="w-full h-full object-cover will-change-transform transition-transform duration-700 group-hover:scale-105"
-                  style={{ objectPosition: couple.objectPosition || 'center 38%' }}
-                  loading="lazy"
-                  decoding="async"
-                  width="1100"
-                  height="1500"
-                />
-              </picture>
+        <div ref={floatContainerRef} className="relative w-full aspect-[400/560] drop-shadow-[0_20px_50px_rgba(62,26,54,0.22)]">
+          {/* ARCH WINDOW INTERIOR WITH VECTOR MASK */}
+          <div ref={illustrationRef} className="absolute inset-0 w-full h-full">
+            <svg
+              viewBox="0 0 400 560"
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-full h-full block"
+            >
+              <defs>
+                {/* Blush to Lilac Soft Interior Gradient */}
+                <linearGradient id="twoSoulsBgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#FBE6EE" />
+                  <stop offset="40%" stopColor="#F5CAD8" />
+                  <stop offset="100%" stopColor="#E4D7F2" />
+                </linearGradient>
 
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#5B2A4E]/15 via-transparent to-[#E3C98A]/10 mix-blend-soft-light" />
-            </div>
+                {/* Golden Radial Pulse Glow behind hands */}
+                <radialGradient id="handsGlowRadial" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#E3C98A" stopOpacity="0.75" />
+                  <stop offset="45%" stopColor="#C9A24B" stopOpacity="0.32" />
+                  <stop offset="70%" stopColor="#C9A24B" stopOpacity="0" />
+                </radialGradient>
+
+                {/* Gold Arch Border Gradient */}
+                <linearGradient id="goldArchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#F3E5AB" />
+                  <stop offset="35%" stopColor="#C9A24B" />
+                  <stop offset="70%" stopColor="#E3C98A" />
+                  <stop offset="100%" stopColor="#9C7728" />
+                </linearGradient>
+
+                {/* Pointed Arch Mask */}
+                <mask id="twoSoulsArchMask">
+                  <path
+                    d="M 200 8 C 265 75, 384 115, 384 190 L 384 542 Q 384 554 372 554 L 28 554 Q 16 554 16 542 L 16 190 C 16 115, 135 75, 200 8 Z"
+                    fill="white"
+                  />
+                </mask>
+              </defs>
+
+              {/* MASKED ARCH CONTENT */}
+              <g mask="url(#twoSoulsArchMask)">
+                {/* Background soft blush -> lilac gradient */}
+                <rect width="400" height="560" fill="url(#twoSoulsBgGrad)" />
+
+                {/* Soft Golden Radial Glow behind clasped hands (around 50% x, 58% y) */}
+                <circle
+                  cx="200"
+                  cy="325"
+                  r="125"
+                  fill="url(#handsGlowRadial)"
+                  className="animate-glow-pulse pointer-events-none"
+                />
+
+                {/* Clasped-Hands Illustration - scaled to seamlessly fill the frame and hide sleeve/dupatta edges */}
+                <image
+                  href={wedding.illustration.webp}
+                  x="-32"
+                  y="-16"
+                  width="464"
+                  height="592"
+                  preserveAspectRatio="xMidYMid slice"
+                  className="select-none pointer-events-none"
+                />
+
+                {/* Tiny Gold Sparkle at the Ring (around 62% x, 61% y -> x:248, y:342) */}
+                <g transform="translate(248, 342)" className="animate-ring-twinkle pointer-events-none">
+                  <polygon
+                    points="0,-11 2.8,-2.8 11,0 2.8,2.8 0,11 -2.8,2.8 -11,0 -2.8,-2.8"
+                    fill="#E3C98A"
+                    style={{ filter: 'drop-shadow(0 0 6px #E3C98A)' }}
+                  />
+                </g>
+              </g>
+
+              {/* ISLAMIC POINTED-ARCH DOUBLE GOLD BORDER */}
+              {/* Outer Gold Border */}
+              <path
+                d="M 200 8 C 265 75, 384 115, 384 190 L 384 542 Q 384 554 372 554 L 28 554 Q 16 554 16 542 L 16 190 C 16 115, 135 75, 200 8 Z"
+                stroke="url(#goldArchGrad)"
+                strokeWidth="3.5"
+                strokeLinejoin="round"
+                fill="none"
+              />
+
+              {/* Inner Gold Border (Double border line) */}
+              <path
+                d="M 200 15 C 263 79, 377 117, 377 190 L 377 537 Q 377 547 366 547 L 34 547 Q 23 547 23 537 L 23 190 C 23 117, 137 79, 200 15 Z"
+                stroke="#E3C98A"
+                strokeWidth="1.5"
+                strokeOpacity="0.85"
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </svg>
           </div>
 
-          {/* Hanging Wisteria Over the Top of the Arch */}
+          {/* DECORATION 1: Hanging Wisteria Over the Top of the Arch */}
           <div className="pointer-events-none absolute -top-4 inset-x-0 h-16 flex justify-center z-30" aria-hidden="true">
             <svg viewBox="0 0 300 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
               <path d="M20 20 Q150 45 280 20" stroke="#B9A3D6" strokeWidth="2.5" strokeLinecap="round" />
@@ -230,7 +340,7 @@ export default function CoupleDuaSection() {
             </svg>
           </div>
 
-          {/* Two Flickering Gold Lanterns */}
+          {/* DECORATION 2: Two Flickering Gold Lanterns on the Sides */}
           <div className="pointer-events-none absolute top-[28%] -left-5 sm:-left-7 z-30" aria-hidden="true">
             <svg viewBox="0 0 36 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 sm:w-10 h-auto drop-shadow-md">
               <line x1="18" y1="0" x2="18" y2="24" stroke="#C9A24B" strokeWidth="1.5" />
@@ -248,11 +358,66 @@ export default function CoupleDuaSection() {
               <circle cx="18" cy="37" r="10" fill="#E3C98A" opacity="0.4" className="animate-glow-flicker" />
             </svg>
           </div>
+
+          {/* DECORATION 3: Blossom Clusters at Bottom Corners */}
+          <div className="pointer-events-none absolute -bottom-3 -left-3 w-16 h-16 drop-shadow-md z-30" aria-hidden="true">
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="35" cy="45" r="18" fill="#F4C6D7" opacity="0.9" />
+              <circle cx="33" cy="43" r="13" fill="#FBE6EE" />
+              <circle cx="35" cy="45" r="5" fill="#C9A24B" />
+              <circle cx="55" cy="55" r="12" fill="#E4D7F2" opacity="0.85" />
+            </svg>
+          </div>
+          <div className="pointer-events-none absolute -bottom-3 -right-3 w-16 h-16 drop-shadow-md z-30 transform -scale-x-100" aria-hidden="true">
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="35" cy="45" r="18" fill="#F4C6D7" opacity="0.9" />
+              <circle cx="33" cy="43" r="13" fill="#FBE6EE" />
+              <circle cx="35" cy="45" r="5" fill="#C9A24B" />
+              <circle cx="55" cy="55" r="12" fill="#E4D7F2" opacity="0.85" />
+            </svg>
+          </div>
         </div>
 
+        {/* UNDER THE ARCH: TWO NAME TAGS WITH BALANCED SYMMETRICAL ALIGNMENT */}
+        <div className="couple-stagger-item mt-7 w-full max-w-md mx-auto grid grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-6 text-center">
+          {/* THE GROOM (Sherwani side - Left) */}
+          <div className="flex flex-col items-center sm:items-end text-center sm:text-right">
+            <span className="font-label text-xs sm:text-[13px] tracking-[0.2em] text-[#8A6414] uppercase font-bold block mb-1">
+              THE GROOM
+            </span>
+            <span className="font-script text-[28px] sm:text-[38px] text-[#3E1A36] leading-tight name-script-shadow whitespace-nowrap">
+              {wedding.groom}
+            </span>
+          </div>
+
+          {/* Small 8-Pointed Star Symmetrically Centered */}
+          <div className="flex items-center justify-center shrink-0 mx-1" aria-hidden="true">
+            <svg className="w-5 h-5 text-[#C9A24B] drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L14.2 8.3L20.5 6.1L17.3 12L22 15.3L15.7 16.5L14.5 22.8L12 17.5L9.5 22.8L8.3 16.5L2 15.3L6.7 12L3.5 6.1L9.8 8.3L12 2Z" />
+            </svg>
+          </div>
+
+          {/* THE BRIDE (Dupatta side - Right) */}
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+            <span className="font-label text-xs sm:text-[13px] tracking-[0.2em] text-[#8A6414] uppercase font-bold block mb-1">
+              THE BRIDE
+            </span>
+            <span className="font-script text-[28px] sm:text-[38px] text-[#3E1A36] leading-tight name-script-shadow whitespace-nowrap">
+              {wedding.bride}
+            </span>
+          </div>
+        </div>
+
+        {/* ONE-LINE CAPTION (From config: couple.caption, rendered only if non-empty) */}
+        {wedding.couple?.caption && wedding.couple.caption.trim() !== '' && (
+          <p className="couple-stagger-item font-body font-medium italic text-lg sm:text-[19px] text-[#5B2A4E] leading-[1.6] max-w-md mx-auto mt-3">
+            "{wedding.couple.caption}"
+          </p>
+        )}
+
         {/* TAP INSTRUCTION & DUA COUNTER */}
-        <div className="mt-8 flex flex-col items-center justify-center text-center">
-          <div className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/85 backdrop-blur-md border border-[#E3C98A] shadow-[0_4px_20px_rgba(201,162,75,0.25)] hover:scale-105 active:scale-95 transition-transform duration-300">
+        <div className="couple-stagger-item mt-6 flex flex-col items-center justify-center text-center">
+          <div className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/85 border border-[#E3C98A] shadow-[0_4px_20px_rgba(201,162,75,0.25)] hover:scale-105 active:scale-95 transition-transform duration-300">
             <svg className="w-4 h-4 text-[#C9A24B] animate-pulse" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C14.15 22 16.14 21.32 17.78 20.17C14.07 19.46 11.27 16.23 11.27 12.33C11.27 8.43 14.07 5.2 17.78 4.49C16.14 3.34 14.15 2 12 2Z" />
             </svg>

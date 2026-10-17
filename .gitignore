@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 lighthouse*.json
+originals/
+originals
 
 # Editor directories and files
 .vscode/*

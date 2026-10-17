@@ -15,12 +15,13 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
 }
 
-const photoFiles = ['rc2.jpg', 'ac-1.jpg', 'ar-c1.jpg', 'hero-bg.jpg'];
+// Strictly background assets only - no portrait photos
+const assetFiles = ['hero-bg.jpg'];
 
 async function optimizeImages() {
-  console.log('--- Optimizing Wedding Photos to WebP and Optimized JPG ---');
+  console.log('--- Optimizing Background Assets ---');
 
-  for (const file of photoFiles) {
+  for (const file of assetFiles) {
     let inputPath = path.join(originalsDir, file);
     if (!fs.existsSync(inputPath)) {
       inputPath = path.join(fallbackInputDir, file);
@@ -73,10 +74,30 @@ async function optimizeImages() {
     }
   }
 
-  console.log('--- Image Optimization Complete ---');
+  // Also execute make-illustration
+  const makeIllustrationScript = path.join(__dirname, 'make-illustration.js');
+  if (fs.existsSync(makeIllustrationScript)) {
+    console.log('--- Running Illustration Optimization ---');
+    const { default: makeIllustration } = await import('./make-illustration.js');
+    if (typeof makeIllustration === 'function') {
+      await makeIllustration();
+    }
+  }
+
+  // Also execute make-og-image
+  const makeOgImageScript = path.join(__dirname, 'make-og-image.js');
+  if (fs.existsSync(makeOgImageScript)) {
+    console.log('--- Running OG Image Generation ---');
+    const { default: makeOgImage } = await import('./make-og-image.js');
+    if (typeof makeOgImage === 'function') {
+      await makeOgImage();
+    }
+  }
+
+  console.log('--- Asset Optimization Complete ---');
 }
 
 optimizeImages().catch((err) => {
-  console.error('Error optimizing images:', err);
+  console.error('Error optimizing assets:', err);
   process.exit(1);
 });

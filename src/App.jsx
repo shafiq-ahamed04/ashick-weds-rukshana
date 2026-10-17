@@ -6,7 +6,6 @@ import QuranVerseSection from './sections/QuranVerseSection';
 import NikahSection from './sections/NikahSection';
 import VineConnector from './components/VineConnector';
 import WalimaSection from './sections/WalimaSection';
-import BrideGroomSection from './sections/BrideGroomSection';
 import CoupleDuaSection from './sections/CoupleDuaSection';
 import CountdownSection from './sections/CountdownSection';
 import SaveDateRsvpSection from './sections/SaveDateRsvpSection';
@@ -50,13 +49,10 @@ export default function App() {
       {/* Section 5: THE WALIMA (Blush and peach mood, mirrored layout, grand palace courtyard fountain & reception details) */}
       <WalimaSection />
 
-      {/* Section 6: MEET THE BRIDE & GROOM (Islamic arched frames, double gold borders, staggered portraits) */}
-      <BrideGroomSection />
-
-      {/* Section 7: THE COUPLE + TAP TO SEND A DUA (Large couple portrait, interactive petal bursts, floating dua blessings) */}
+      {/* Section 6: TWO SOULS, ONE JOURNEY (Clasped-hands illustration in pointed arch + tap to send a dua interaction) */}
       <CoupleDuaSection />
 
-      {/* Section 8: COUNTING THE DAYS (Live dynamic countdown timer to Nikah & Walima) */}
+      {/* Section 7: COUNTING THE DAYS (Live dynamic countdown timer to Nikah & Walima) */}
       <CountdownSection />
 
       {/* Section 9: SAVE THE DATES + RSVP (Client-side .ics download & WhatsApp RSVP) */}

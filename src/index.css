@@ -140,6 +140,67 @@ html.lenis, html.lenis body {
   animation: floatFade 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
+/* Illustration & Arch Animations */
+@keyframes illustrationFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-illustration-float {
+  animation: illustrationFloat 5s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.18);
+    opacity: 0.85;
+  }
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+@keyframes ringTwinkle {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+    opacity: 0;
+  }
+  15%, 25% {
+    transform: translate(-50%, -50%) scale(1.15) rotate(45deg);
+    opacity: 1;
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(0.2) rotate(90deg);
+    opacity: 0;
+  }
+}
+
+.animate-ring-twinkle {
+  animation: ringTwinkle 3.6s ease-in-out infinite;
+}
+
+@keyframes glowFlicker {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.animate-glow-flicker {
+  animation: glowFlicker 2.4s ease-in-out infinite;
+}
+
 /* Respect prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -150,7 +211,11 @@ html.lenis, html.lenis body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .animate-ken-burns {
+  .animate-ken-burns,
+  .animate-illustration-float,
+  .animate-glow-pulse,
+  .animate-ring-twinkle,
+  .animate-glow-flicker {
     animation: none !important;
     transform: none !important;
   }

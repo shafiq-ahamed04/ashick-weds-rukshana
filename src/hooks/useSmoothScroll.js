@@ -22,6 +22,7 @@ export function useSmoothScroll(isLocked = false) {
     });
 
     lenisRef.current = lenis;
+    window.lenis = lenis;
 
     lenis.on('scroll', ScrollTrigger.update);
 
