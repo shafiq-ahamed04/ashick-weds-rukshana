@@ -68,7 +68,8 @@ export const wedding = {
     alt: "Watercolor illustration of clasped hands with cream-and-gold sherwani sleeve and plum dupatta"
   },
   couple: {
-    caption: "Different paths, the same kind of forever."
+    caption: "Different paths, the same kind of forever.",
+    belowText: "“May Allah make this bond a source of peace and mercy.”"
   },
 
   // Phase 5.5: Logo & Hero Background (Optimized transparent assets)

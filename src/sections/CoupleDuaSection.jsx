@@ -378,35 +378,18 @@ export default function CoupleDuaSection() {
           </div>
         </div>
 
-        {/* UNDER THE ARCH: TWO NAME TAGS WITH BALANCED SYMMETRICAL ALIGNMENT */}
-        <div className="couple-stagger-item mt-7 w-full max-w-md mx-auto grid grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-6 text-center">
-          {/* THE GROOM (Sherwani side - Left) */}
-          <div className="flex flex-col items-center sm:items-end text-center sm:text-right">
-            <span className="font-label text-xs sm:text-[13px] tracking-[0.2em] text-[#8A6414] uppercase font-bold block mb-1">
-              THE GROOM
-            </span>
-            <span className="font-script text-[28px] sm:text-[38px] text-[#3E1A36] leading-tight name-script-shadow whitespace-nowrap">
-              {wedding.groom}
-            </span>
+        {/* UNDER THE ARCH: GOLD DIVIDER WITH 8-POINTED STAR & BELOWTEXT */}
+        {wedding.couple?.belowText && wedding.couple.belowText.trim() !== '' && (
+          <div className="couple-stagger-item mt-6 sm:mt-7 flex flex-col items-center text-center">
+            <GoldDivider className="!my-0 mb-4" />
+            <p
+              className="font-body italic font-[500] text-[clamp(20px,4.5vw,26px)] text-[#5B2A4E] leading-[1.5] max-w-[520px] mx-auto [text-wrap:balance]"
+              style={{ textWrap: 'balance' }}
+            >
+              {wedding.couple.belowText}
+            </p>
           </div>
-
-          {/* Small 8-Pointed Star Symmetrically Centered */}
-          <div className="flex items-center justify-center shrink-0 mx-1" aria-hidden="true">
-            <svg className="w-5 h-5 text-[#C9A24B] drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2L14.2 8.3L20.5 6.1L17.3 12L22 15.3L15.7 16.5L14.5 22.8L12 17.5L9.5 22.8L8.3 16.5L2 15.3L6.7 12L3.5 6.1L9.8 8.3L12 2Z" />
-            </svg>
-          </div>
-
-          {/* THE BRIDE (Dupatta side - Right) */}
-          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-            <span className="font-label text-xs sm:text-[13px] tracking-[0.2em] text-[#8A6414] uppercase font-bold block mb-1">
-              THE BRIDE
-            </span>
-            <span className="font-script text-[28px] sm:text-[38px] text-[#3E1A36] leading-tight name-script-shadow whitespace-nowrap">
-              {wedding.bride}
-            </span>
-          </div>
-        </div>
+        )}
 
         {/* ONE-LINE CAPTION (From config: couple.caption, rendered only if non-empty) */}
         {wedding.couple?.caption && wedding.couple.caption.trim() !== '' && (
