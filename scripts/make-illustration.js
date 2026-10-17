@@ -16,6 +16,10 @@ const outputWebp = path.join(outputDir, 'hands.webp');
 export default async function makeIllustration() {
   console.log('=== Preparing Clasped-Hands Illustration ===');
   if (!fs.existsSync(inputPath)) {
+    if (fs.existsSync(outputWebp) && fs.existsSync(outputPng)) {
+      console.log('✓ Original hh.jpg not present in deployment. Using pre-built optimized hands.webp and hands.png.');
+      return;
+    }
     throw new Error(`Source image not found: ${inputPath}`);
   }
 

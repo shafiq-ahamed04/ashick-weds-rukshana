@@ -28,6 +28,12 @@ async function optimizeImages() {
     }
 
     if (!fs.existsSync(inputPath)) {
+      const baseName = path.parse(file).name;
+      const outputWebp = path.join(outputDir, `${baseName}.webp`);
+      if (fs.existsSync(outputWebp)) {
+        console.log(`✓ Original ${file} not present in deployment. Using pre-built: ${outputWebp}`);
+        continue;
+      }
       console.warn(`File not found: ${file}`);
       continue;
     }
