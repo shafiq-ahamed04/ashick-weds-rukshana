@@ -61,28 +61,28 @@ export const wedding = {
     ]
   },
 
-  // Phase 4 & 5.5: People & Couple Photos (Pointing strictly to optimized versions)
+  // Phase 4 & 5.5: People & Couple Photos (Pointing strictly to new optimized photos)
   people: {
     bride: {
       name: "Rukshana Parveen",
       role: "THE BRIDE",
-      photo: "/images/optimized/bride.jpg",
-      photoWebp: "/images/optimized/bride.webp",
+      photo: "/images/optimized/rc2.jpg",
+      photoWebp: "/images/optimized/rc2.webp",
       objectPosition: "center 28%",
       oneLine: ""
     },
     groom: {
       name: "Ashick",
       role: "THE GROOM",
-      photo: "/images/optimized/groom.jpg",
-      photoWebp: "/images/optimized/groom.webp",
+      photo: "/images/optimized/ac-1.jpg",
+      photoWebp: "/images/optimized/ac-1.webp",
       objectPosition: "center 25%",
       oneLine: ""
     }
   },
   couple: {
-    photo: "/images/optimized/couple.jpg",
-    photoWebp: "/images/optimized/couple.webp",
+    photo: "/images/optimized/ar-c1.jpg",
+    photoWebp: "/images/optimized/ar-c1.webp",
     objectPosition: "center 38%",
     caption: "Different paths, the same kind of forever."
   },

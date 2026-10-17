@@ -15,7 +15,7 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
 }
 
-const photoFiles = ['bride.jpg', 'groom.jpg', 'couple.jpg', 'hero-bg.jpg'];
+const photoFiles = ['rc2.jpg', 'ac-1.jpg', 'ar-c1.jpg', 'hero-bg.jpg'];
 
 async function optimizeImages() {
   console.log('--- Optimizing Wedding Photos to WebP and Optimized JPG ---');
